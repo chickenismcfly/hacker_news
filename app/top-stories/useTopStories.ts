@@ -3,9 +3,7 @@
 import { useQuery, UseQueryResult } from "@tanstack/react-query";
 import { HACKER_NEWS_API } from "@/app/api/api";
 
-export function useTopStories(
-  limit: number = 30,
-): UseQueryResult<number[], Error> {
+export function useTopStories(limit?: number): UseQueryResult<number[], Error> {
   return useQuery<number[], Error>({
     queryKey: ["topStories", limit],
     queryFn: async (): Promise<number[]> => {

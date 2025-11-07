@@ -5,7 +5,7 @@ import { useNewStories } from "@/app/new-stories/useNewStories";
 import { StoryFeedPage } from "@/app/components/StoryFeedPage";
 
 const NewStoriesPage: FunctionComponent = () => {
-  const { data: ids, isLoading: loadingIds } = useNewStories(100);
+  const { data: ids, isLoading: loadingIds } = useNewStories();
 
   return (
     <StoryFeedPage
