@@ -14,6 +14,10 @@ export type StoryFeedPageProps = {
   loadingIds: boolean;
 };
 
+/*
+ * I assumed from the task description that I have to handle paging
+ * the entire batch of data without using an API with built-in paging
+ */
 export const StoryFeedPage: FunctionComponent<StoryFeedPageProps> = ({
   title,
   ids,
