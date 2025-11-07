@@ -28,7 +28,7 @@ describe("Pagination", () => {
         count={30}
         page={1}
         pageSize={10}
-        onPageChange={(e) => {}}
+        onPageChange={() => {}}
       />,
     );
     expect(screen.getByText("1")).toBeInTheDocument();

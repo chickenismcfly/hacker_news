@@ -20,11 +20,8 @@ export const QueryClientWrapper: FunctionComponent<PropsWithChildren> = (
   );
 };
 
-export const renderWithQueryClient = (ui: ReactNode) => {
-  return render(
-    <QueryClientProvider client={queryClient}>{ui}</QueryClientProvider>,
-  );
-};
+export const renderWithQueryClient = (ui: ReactNode) =>
+  render(<QueryClientProvider client={queryClient}>{ui}</QueryClientProvider>);
 
 export const renderWithChakra = (children: ReactElement) =>
   render(<ChakraProvider value={defaultSystem}>{children}</ChakraProvider>);
