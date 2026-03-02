@@ -13,29 +13,27 @@ import {
 import { CardSkeleton } from "@/app/components/card/CardSkeleton";
 
 export type CardBaseProps = {
-  id?: number;
+  id: number;
   url?: string;
   title?: string;
-  by?: string;
+  by: string;
   pointsCount?: number;
   commentsCount?: number;
 };
 
 export type CardProps<T extends CardBaseProps> =
   | { loading: true }
-  | { loading: false; item?: T };
+  | { loading: false; item: T };
 
 export const Card = <T extends CardBaseProps>(props: CardProps<T>) => {
-  const { loading } = props;
-
-  if (loading) {
+  if (props.loading) {
     return <CardSkeleton />;
   }
 
-  const { id, url, title, by, pointsCount, commentsCount } = props.item as T;
+  const { id, url, title, by, pointsCount, commentsCount } = props.item;
 
   return (
-    <ChakraCard.Root key={id} variant="outline" borderRadius="md">
+    <ChakraCard.Root variant="outline" borderRadius="md">
       <CardHeader minHeight={10} flex={3}>
         <Heading size="md">
           <Link href={url} target="_blank" rel="noopener noreferrer">
@@ -43,6 +41,7 @@ export const Card = <T extends CardBaseProps>(props: CardProps<T>) => {
           </Link>
         </Heading>
       </CardHeader>
+
       <CardBody flex={2}>
         <Stack gap={2}>
           <Text fontSize="sm" color="gray.600">
@@ -54,6 +53,7 @@ export const Card = <T extends CardBaseProps>(props: CardProps<T>) => {
           </Flex>
         </Stack>
       </CardBody>
+
       <CardFooter flex={1}>
         <Tag.Root>
           <Tag.Label>#{id}</Tag.Label>

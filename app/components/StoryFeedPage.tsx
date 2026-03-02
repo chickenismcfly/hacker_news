@@ -1,12 +1,12 @@
 import { useItemsBatch } from "@/app/api/useItemsBatch";
 import { usePagination } from "@/app/components/pagination/usePagination";
-import { FunctionComponent, useMemo } from "react";
+import { useMemo } from "react";
 import { paginateData } from "@/app/components/pagination/paginateData";
 import { HNItem } from "@/app/api/types";
 import { Box, Flex, Heading } from "@chakra-ui/react";
 import { Pagination } from "@/app/components/pagination/Pagination";
 import { AnimatedGrid } from "@/app/components/AnimatedGrid";
-import { Card } from "@/app/components/card/Card";
+import { Card, CardBaseProps, CardProps } from "@/app/components/card/Card";
 
 export type StoryFeedPageProps = {
   title: string;
@@ -14,28 +14,25 @@ export type StoryFeedPageProps = {
   loadingIds: boolean;
 };
 
-/*
- * I assumed from the task description that I have to handle paging
- * the entire batch of data without using an API with built-in paging
- */
-export const StoryFeedPage: FunctionComponent<StoryFeedPageProps> = ({
+export const StoryFeedPage = ({
   title,
   ids,
   loadingIds,
-}) => {
-  const { data: stories, isLoading: loadingStories } = useItemsBatch(ids ?? []);
+}: StoryFeedPageProps) => {
+  const { data: stories = [], isLoading: loadingStories } = useItemsBatch(ids);
   const { currentPage, pageSize, setCurrentPage } = usePagination({
     pageSize: 9,
   });
-  const paginatedData = useMemo(
-    () => paginateData<HNItem>(stories as HNItem[], currentPage, pageSize),
-    [currentPage, pageSize, stories],
-  );
 
   const loading = loadingIds || loadingStories;
 
-  const itemsToRender = loading
-    ? Array.from({ length: 9 }).map(() => ({ loading: true }))
+  const paginatedData = useMemo(() => {
+    if (loading) return [];
+    return paginateData<HNItem>(stories, currentPage, pageSize);
+  }, [currentPage, pageSize, stories, loading]);
+
+  const itemsToRender: CardProps<CardBaseProps>[] = loading
+    ? Array.from({ length: pageSize }).map(() => ({ loading: true }))
     : paginatedData.map((item) => ({
         loading: false,
         item: {
@@ -52,16 +49,20 @@ export const StoryFeedPage: FunctionComponent<StoryFeedPageProps> = ({
           {title}
         </Heading>
         <Pagination
-          count={stories?.length as number}
+          count={stories.length}
           pageSize={pageSize}
           page={currentPage}
           onPageChange={(e) => setCurrentPage(e.page)}
           loading={loading}
         />
       </Flex>
+
       <AnimatedGrid motionKey={currentPage}>
-        {itemsToRender?.map((story, index) => (
-          <Card key={index} {...story} />
+        {itemsToRender.map((story, index) => (
+          <Card
+            key={story.loading ? `skeleton-${index}` : story.item.id}
+            {...story}
+          />
         ))}
       </AnimatedGrid>
     </Box>
