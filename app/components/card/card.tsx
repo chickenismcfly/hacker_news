@@ -1,4 +1,4 @@
-import { CardSkeleton } from "@/app/components/card/CardSkeleton";
+import { CardSkeleton } from "@/app/components/card/card-skeleton";
 
 export type CardBaseProps = {
   id: number;

@@ -1,8 +1,10 @@
 import { useState } from "react";
 import { LuChevronDown, LuChevronUp } from "react-icons/lu";
 import { HNItem } from "@/app/api/types";
-import { useItemsBatch } from "@/app/api/useItemsBatch";
-import { CommentSkeleton } from "./CommentSkeleton";
+import { useItemsBatch } from "@/app/api/use-items-batch";
+import { CommentSkeleton } from "./comment-skeleton";
+import { formatTimeAgo } from "@/app/utils/time";
+import { isVisibleComment } from "@/app/utils/hn-item";
 
 const MAX_DEPTH = 3;
 
@@ -12,17 +14,6 @@ const borderColors = [
   "border-lilac-200",
   "border-lilac-100",
 ];
-
-function formatTimeAgo(unixTime: number): string {
-  const seconds = Math.floor(Date.now() / 1000 - unixTime);
-  if (seconds < 60) return `${seconds}s ago`;
-  const minutes = Math.floor(seconds / 60);
-  if (minutes < 60) return `${minutes}m ago`;
-  const hours = Math.floor(minutes / 60);
-  if (hours < 24) return `${hours}h ago`;
-  const days = Math.floor(hours / 24);
-  return `${days}d ago`;
-}
 
 type CommentRepliesProps = {
   kidIds: number[];
@@ -45,7 +36,7 @@ const CommentReplies = ({ kidIds, depth }: CommentRepliesProps) => {
   return (
     <div className="mt-3 ml-4 space-y-3">
       {replies
-        .filter((r) => !r.deleted && !r.dead)
+        .filter(isVisibleComment)
         .map((reply) => (
           <Comment key={reply.id} item={reply} depth={depth} />
         ))}

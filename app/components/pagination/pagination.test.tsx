@@ -1,7 +1,7 @@
-import { Pagination } from "./Pagination";
+import { Pagination } from "./pagination";
 import { renderWithChakra, screen } from "@/utils/test";
 
-jest.mock("./PaginationSkeleton", () => ({
+jest.mock("./pagination-skeleton", () => ({
   PaginationSkeleton: () => <div data-testid="pagination-skeleton" />,
 }));
 

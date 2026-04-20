@@ -1,6 +1,6 @@
 import { LuChevronLeft, LuChevronRight } from "react-icons/lu";
 import { FunctionComponent } from "react";
-import { PaginationSkeleton } from "@/app/components/pagination/PaginationSkeleton";
+import { PaginationSkeleton } from "@/app/components/pagination/pagination-skeleton";
 
 export type PaginationProps = {
   count: number;

@@ -1,7 +1,7 @@
 import { renderWithChakra, screen } from "@/utils/test";
-import { Card } from "./Card";
+import { Card } from "./card";
 
-jest.mock("./CardSkeleton", () => ({
+jest.mock("./card-skeleton", () => ({
   CardSkeleton: () => <div data-testid="card-skeleton" />,
 }));
 

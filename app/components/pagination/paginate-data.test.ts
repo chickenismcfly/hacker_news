@@ -1,4 +1,4 @@
-import { paginateData } from "./paginateData";
+import { paginateData } from "./paginate-data";
 
 describe("paginateData", () => {
   const sampleData = Array.from({ length: 25 }, (_, i) => `Item ${i + 1}`);

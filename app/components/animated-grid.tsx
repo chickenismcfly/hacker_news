@@ -1,5 +1,5 @@
 import { AnimatePresence } from "framer-motion";
-import { MotionBox } from "@/app/components/MotionBox";
+import { MotionBox } from "@/app/components/motion-box";
 import { FunctionComponent, Key, ReactNode } from "react";
 
 export type AnimatedGridProps = {

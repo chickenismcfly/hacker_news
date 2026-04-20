@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import { Providers } from "./Providers";
-import HeaderNavigation from "./HeaderNavigation";
+import { Providers } from "./providers";
+import HeaderNavigation from "./header-navigation";
 import TopStoriesPage from "./top-stories/page";
 import NewStoriesPage from "./new-stories/page";
 

@@ -1,12 +1,6 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import {
-  FunctionComponent,
-  PropsWithChildren,
-  ReactElement,
-  ReactNode,
-} from "react";
+import { FunctionComponent, PropsWithChildren, ReactNode } from "react";
 import { render } from "@testing-library/react";
-import { ChakraProvider, defaultSystem } from "@chakra-ui/react";
 
 const queryClient = new QueryClient();
 
@@ -22,8 +16,5 @@ export const QueryClientWrapper: FunctionComponent<PropsWithChildren> = (
 
 export const renderWithQueryClient = (ui: ReactNode) =>
   render(<QueryClientProvider client={queryClient}>{ui}</QueryClientProvider>);
-
-export const renderWithChakra = (children: ReactElement) =>
-  render(<ChakraProvider value={defaultSystem}>{children}</ChakraProvider>);
 
 export * from "@testing-library/react";

@@ -1,11 +1,10 @@
-import { useEffect } from "react";
 import { AnimatePresence } from "framer-motion";
 import { LuX } from "react-icons/lu";
 import { HNItem } from "@/app/api/types";
-import { useItemsBatch } from "@/app/api/useItemsBatch";
-import { MotionBox } from "@/app/components/MotionBox";
-import { Comment } from "./Comment";
-import { CommentSkeleton } from "./CommentSkeleton";
+import { MotionBox } from "@/app/components/motion-box";
+import { Comment } from "./comment";
+import { CommentSkeleton } from "./comment-skeleton";
+import { useCommentsDrawer } from "./use-comments-drawer";
 
 type CommentsDrawerProps = {
   story: HNItem | null;
@@ -13,24 +12,7 @@ type CommentsDrawerProps = {
 };
 
 export const CommentsDrawer = ({ story, onClose }: CommentsDrawerProps) => {
-  const { data: comments = [], isLoading } = useItemsBatch(story?.kids ?? []);
-
-  useEffect(() => {
-    const onKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape") onClose();
-    };
-    document.addEventListener("keydown", onKeyDown);
-    return () => document.removeEventListener("keydown", onKeyDown);
-  }, [onClose]);
-
-  useEffect(() => {
-    document.body.style.overflow = story ? "hidden" : "";
-    return () => {
-      document.body.style.overflow = "";
-    };
-  }, [story]);
-
-  const visibleComments = comments.filter((c) => !c.deleted && !c.dead);
+  const { visibleComments, isLoading } = useCommentsDrawer(story, onClose);
 
   return (
     <AnimatePresence>
