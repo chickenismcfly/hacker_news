@@ -2,9 +2,9 @@ import { NavLink } from "react-router-dom";
 
 const HeaderNavigation = () => {
   return (
-    <header className="sticky top-0 z-50 bg-white border-b border-slate-200 shadow-sm">
+    <header className="sticky top-0 z-50 bg-white border-b border-lilac-200 shadow-sm">
       <div className="max-w-7xl mx-auto px-6 py-3 flex items-center justify-between">
-        <span className="font-bold text-lg text-hn-orange tracking-tight">
+        <span className="font-bold text-lg text-lilac-700 tracking-tight">
           Hacker News
         </span>
         <nav className="flex items-center gap-6">
@@ -13,8 +13,8 @@ const HeaderNavigation = () => {
             className={({ isActive }) =>
               `text-sm font-medium transition-colors ${
                 isActive
-                  ? "text-hn-orange"
-                  : "text-slate-600 hover:text-slate-900"
+                  ? "text-lilac-600"
+                  : "text-slate-600 hover:text-lilac-700"
               }`
             }
           >
@@ -25,8 +25,8 @@ const HeaderNavigation = () => {
             className={({ isActive }) =>
               `text-sm font-medium transition-colors ${
                 isActive
-                  ? "text-hn-orange"
-                  : "text-slate-600 hover:text-slate-900"
+                  ? "text-lilac-600"
+                  : "text-slate-600 hover:text-lilac-700"
               }`
             }
           >

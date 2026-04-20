@@ -21,14 +21,14 @@ export const Card = <T extends CardBaseProps>(props: CardProps<T>) => {
   const { id, url, title, by, pointsCount, commentsCount } = props.item;
 
   return (
-    <div className="bg-white rounded-xl border border-slate-200 shadow-sm hover:shadow-md transition-shadow duration-200 flex flex-col">
+    <div className="bg-white rounded-xl border border-lilac-200 shadow-sm hover:shadow-md transition-shadow duration-200 flex flex-col">
       <div className="flex-[3] p-5">
         <h2 className="text-sm font-semibold leading-snug">
           <a
             href={url}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-slate-900 hover:text-hn-orange transition-colors duration-150"
+            className="text-lilac-950 hover:text-lilac-600 transition-colors duration-150"
           >
             {title}
           </a>
@@ -36,15 +36,15 @@ export const Card = <T extends CardBaseProps>(props: CardProps<T>) => {
       </div>
 
       <div className="flex-[2] px-5 pb-4 space-y-2">
-        <p className="text-xs text-slate-500">by {by}</p>
+        <p className="text-xs text-slate-600">by {by}</p>
         <div className="flex justify-between">
           <span className="text-xs text-slate-600">▲ {pointsCount} points</span>
-          <span className="text-xs text-slate-500">{commentsCount} comments</span>
+          <span className="text-xs text-slate-600">{commentsCount} comments</span>
         </div>
       </div>
 
       <div className="flex-1 px-5 pb-5">
-        <span className="inline-block text-xs bg-orange-50 text-hn-orange border border-orange-200 px-2 py-0.5 rounded-full font-mono">
+        <span className="inline-block text-xs bg-lilac-100 text-lilac-700 border border-lilac-200 px-2 py-0.5 rounded-full font-mono">
           #{id}
         </span>
       </div>

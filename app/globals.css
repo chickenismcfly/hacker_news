@@ -1,6 +1,16 @@
 @import "tailwindcss";
 
 @theme {
-  --color-hn-orange: #ff6600;
+  --color-lilac-50: #f5f3ff;
+  --color-lilac-100: #ede9fe;
+  --color-lilac-200: #ddd6fe;
+  --color-lilac-300: #c4b5fd;
+  --color-lilac-400: #a78bfa;
+  --color-lilac-500: #8b5cf6;
+  --color-lilac-600: #7c3aed;
+  --color-lilac-700: #6d28d9;
+  --color-lilac-800: #5b21b6;
+  --color-lilac-900: #4c1d95;
+  --color-lilac-950: #2e1065;
   --font-sans: "Inter", system-ui, -apple-system, sans-serif;
 }

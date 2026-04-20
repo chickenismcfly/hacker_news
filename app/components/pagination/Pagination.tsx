@@ -37,9 +37,8 @@ export const Pagination: FunctionComponent<PaginationProps> = ({
 
   const btnBase =
     "w-8 h-8 flex items-center justify-center rounded-lg text-sm font-medium transition-colors duration-150";
-  const btnActive = "bg-hn-orange text-white";
-  const btnInactive =
-    "text-slate-600 hover:bg-slate-200";
+  const btnActive = "bg-lilac-600 text-white";
+  const btnInactive = "text-slate-600 hover:bg-lilac-100 hover:text-lilac-700";
   const btnDisabled = "text-slate-300 cursor-not-allowed";
 
   return (
@@ -56,7 +55,7 @@ export const Pagination: FunctionComponent<PaginationProps> = ({
 
       {getPageNumbers().map((p, i) =>
         p === "ellipsis" ? (
-          <span key={`ellipsis-${i}`} className="w-8 h-8 flex items-center justify-center text-slate-400 text-sm">
+          <span key={`ellipsis-${i}`} className="w-8 h-8 flex items-center justify-center text-slate-600 text-sm">
             …
           </span>
         ) : (
