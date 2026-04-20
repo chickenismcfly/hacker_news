@@ -1,10 +1,12 @@
 import { useItemsBatch } from "@/app/api/useItemsBatch";
 import { usePagination } from "@/app/components/pagination/usePagination";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { paginateData } from "@/app/components/pagination/paginateData";
+import { HNItem } from "@/app/api/types";
 import { Pagination } from "@/app/components/pagination/Pagination";
 import { AnimatedGrid } from "@/app/components/AnimatedGrid";
 import { Card, CardBaseProps, CardProps } from "@/app/components/card/Card";
+import { CommentsDrawer } from "@/app/components/comments/CommentsDrawer";
 
 export type StoryFeedPageProps = {
   title: string;
@@ -17,6 +19,7 @@ export const StoryFeedPage = ({
   ids,
   loadingIds,
 }: StoryFeedPageProps) => {
+  const [selectedStory, setSelectedStory] = useState<HNItem | null>(null);
   const { currentPage, pageSize, setCurrentPage } = usePagination({
     pageSize: 9,
   });
@@ -39,9 +42,15 @@ export const StoryFeedPage = ({
           pointsCount: item.score,
           commentsCount: item.descendants,
         },
+        onCommentsClick: () => setSelectedStory(item),
       }));
 
   return (
+    <>
+    <CommentsDrawer
+      story={selectedStory}
+      onClose={() => setSelectedStory(null)}
+    />
     <div className="py-9 min-h-screen overflow-hidden">
       <div className="flex justify-between items-start mb-8 gap-4">
         <h1 className="text-4xl font-bold text-lilac-950 tracking-tight">
@@ -65,5 +74,6 @@ export const StoryFeedPage = ({
         ))}
       </AnimatedGrid>
     </div>
+    </>
   );
 };

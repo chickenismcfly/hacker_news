@@ -10,4 +10,6 @@ export interface HNItem {
   descendants?: number;
   kids?: number[];
   parent?: number;
+  deleted?: boolean;
+  dead?: boolean;
 }

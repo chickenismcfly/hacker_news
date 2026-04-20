@@ -11,14 +11,15 @@ export type CardBaseProps = {
 
 export type CardProps<T extends CardBaseProps> =
   | { loading: true }
-  | { loading: false; item: T };
+  | { loading: false; item: T; onCommentsClick?: () => void };
 
 export const Card = <T extends CardBaseProps>(props: CardProps<T>) => {
   if (props.loading) {
     return <CardSkeleton />;
   }
 
-  const { id, url, title, by, pointsCount, commentsCount } = props.item;
+  const { item, onCommentsClick } = props;
+  const { id, url, title, by, pointsCount, commentsCount } = item;
 
   return (
     <div className="bg-white rounded-xl border border-lilac-200 shadow-sm hover:shadow-md transition-shadow duration-200 flex flex-col">
@@ -39,7 +40,14 @@ export const Card = <T extends CardBaseProps>(props: CardProps<T>) => {
         <p className="text-xs text-slate-600">by {by}</p>
         <div className="flex justify-between">
           <span className="text-xs text-slate-600">▲ {pointsCount} points</span>
-          <span className="text-xs text-slate-600">{commentsCount} comments</span>
+          <button
+              onClick={onCommentsClick}
+              className="text-xs text-slate-600 hover:text-lilac-600 transition-colors disabled:cursor-default"
+              disabled={!onCommentsClick}
+              aria-label={`View ${commentsCount} comments`}
+            >
+              {commentsCount} comments
+            </button>
         </div>
       </div>
 
