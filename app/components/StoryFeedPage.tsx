@@ -3,14 +3,13 @@ import { usePagination } from "@/app/components/pagination/usePagination";
 import { useMemo } from "react";
 import { paginateData } from "@/app/components/pagination/paginateData";
 import { HNItem } from "@/app/api/types";
-import { Box, Flex, Heading } from "@chakra-ui/react";
 import { Pagination } from "@/app/components/pagination/Pagination";
 import { AnimatedGrid } from "@/app/components/AnimatedGrid";
 import { Card, CardBaseProps, CardProps } from "@/app/components/card/Card";
 
 export type StoryFeedPageProps = {
   title: string;
-  ids: number[];
+  ids?: number[];
   loadingIds: boolean;
 };
 
@@ -43,11 +42,11 @@ export const StoryFeedPage = ({
       }));
 
   return (
-    <Box textAlign="left" py={9} minHeight="100vh" overflow="hidden">
-      <Flex justifyContent="space-between">
-        <Heading size="3xl" pb={9}>
+    <div className="py-9 min-h-screen overflow-hidden">
+      <div className="flex justify-between items-start mb-8 gap-4">
+        <h1 className="text-4xl font-bold text-slate-900 tracking-tight">
           {title}
-        </Heading>
+        </h1>
         <Pagination
           count={stories.length}
           pageSize={pageSize}
@@ -55,7 +54,7 @@ export const StoryFeedPage = ({
           onPageChange={(e) => setCurrentPage(e.page)}
           loading={loading}
         />
-      </Flex>
+      </div>
 
       <AnimatedGrid motionKey={currentPage}>
         {itemsToRender.map((story, index) => (
@@ -65,6 +64,6 @@ export const StoryFeedPage = ({
           />
         ))}
       </AnimatedGrid>
-    </Box>
+    </div>
   );
 };

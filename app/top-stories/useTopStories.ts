@@ -1,5 +1,3 @@
-"use client";
-
 import { useQuery, UseQueryResult } from "@tanstack/react-query";
 import { HACKER_NEWS_API } from "@/app/api/api";
 

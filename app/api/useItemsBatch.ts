@@ -3,7 +3,7 @@ import { useQuery, UseQueryResult } from "@tanstack/react-query";
 import { HACKER_NEWS_API } from "@/app/api/api";
 import { HNItem } from "@/app/api/types";
 
-export function useItemsBatch(ids: number[]): UseQueryResult<HNItem[], Error> {
+export function useItemsBatch(ids: number[] = []): UseQueryResult<HNItem[], Error> {
   return useQuery<HNItem[], Error>({
     queryKey: ["itemsBatch", ids],
     queryFn: async () => {

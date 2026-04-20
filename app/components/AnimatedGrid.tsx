@@ -1,12 +1,16 @@
 import { AnimatePresence } from "framer-motion";
 import { MotionBox } from "@/app/components/MotionBox";
-import { SimpleGrid, SimpleGridProps } from "@chakra-ui/react";
-import { FunctionComponent, Key } from "react";
+import { FunctionComponent, Key, ReactNode } from "react";
 
-export type AnimatedGridProps = SimpleGridProps & { motionKey: Key };
+export type AnimatedGridProps = {
+  motionKey: Key;
+  children: ReactNode;
+};
 
-export const AnimatedGrid: FunctionComponent<AnimatedGridProps> = (props) => {
-  const { motionKey, ...rest } = props;
+export const AnimatedGrid: FunctionComponent<AnimatedGridProps> = ({
+  motionKey,
+  children,
+}) => {
   return (
     <AnimatePresence mode="wait">
       <MotionBox
@@ -15,7 +19,9 @@ export const AnimatedGrid: FunctionComponent<AnimatedGridProps> = (props) => {
         animate={{ x: 0, opacity: 1 }}
         exit={{ x: "-100%", opacity: 0 }}
       >
-        <SimpleGrid columns={{ base: 1, sm: 2, md: 3 }} gap={6} {...rest} />
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+          {children}
+        </div>
       </MotionBox>
     </AnimatePresence>
   );

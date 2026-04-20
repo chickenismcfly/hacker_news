@@ -1,5 +1,3 @@
-"use client";
-
 import { FunctionComponent } from "react";
 import { useNewStories } from "@/app/new-stories/useNewStories";
 import { StoryFeedPage } from "@/app/components/StoryFeedPage";
@@ -10,7 +8,7 @@ const NewStoriesPage: FunctionComponent = () => {
   return (
     <StoryFeedPage
       title="New Stories"
-      ids={ids as number[]}
+      ids={ids}
       loadingIds={loadingIds}
     />
   );

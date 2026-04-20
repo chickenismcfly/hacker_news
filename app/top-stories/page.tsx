@@ -1,5 +1,3 @@
-"use client";
-
 import { FunctionComponent } from "react";
 import { useTopStories } from "@/app/top-stories/useTopStories";
 import { StoryFeedPage } from "@/app/components/StoryFeedPage";
@@ -10,7 +8,7 @@ const TopStoriesPage: FunctionComponent = () => {
   return (
     <StoryFeedPage
       title="Top Stories"
-      ids={ids as number[]}
+      ids={ids}
       loadingIds={loadingIds}
     />
   );

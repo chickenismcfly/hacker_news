@@ -1,22 +1,28 @@
-import { ButtonGroup, HStack, IconButton, Skeleton } from "@chakra-ui/react";
 import { LuChevronLeft, LuChevronRight } from "react-icons/lu";
 
 export const PaginationSkeleton = () => {
   return (
-    <ButtonGroup variant="ghost" size="sm" attached>
-      <IconButton aria-label="Previous page" disabled>
-        <LuChevronLeft />
-      </IconButton>
-
-      <HStack gap={1}>
-        {Array.from({ length: 10 }).map((_, i) => (
-          <Skeleton key={i} height="32px" width="32px" borderRadius="md" />
+    <div className="flex items-center gap-1">
+      <button
+        disabled
+        className="w-8 h-8 flex items-center justify-center rounded-lg text-slate-300 cursor-not-allowed"
+      >
+        <LuChevronLeft size={16} />
+      </button>
+      <div className="flex items-center gap-1">
+        {Array.from({ length: 5 }).map((_, i) => (
+          <div
+            key={i}
+            className="w-8 h-8 bg-slate-200 rounded-lg animate-pulse"
+          />
         ))}
-      </HStack>
-
-      <IconButton aria-label="Next page" disabled>
-        <LuChevronRight />
-      </IconButton>
-    </ButtonGroup>
+      </div>
+      <button
+        disabled
+        className="w-8 h-8 flex items-center justify-center rounded-lg text-slate-300 cursor-not-allowed"
+      >
+        <LuChevronRight size={16} />
+      </button>
+    </div>
   );
 };

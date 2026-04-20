@@ -1,35 +1,41 @@
-"use client";
+import { NavLink } from "react-router-dom";
 
-import { Box, Flex, HStack, Link, Spacer } from "@chakra-ui/react";
-
-const StickyHeader = () => {
+const HeaderNavigation = () => {
   return (
-    <Box
-      as="header"
-      position="sticky"
-      top={0}
-      zIndex="sticky"
-      bg="white"
-      boxShadow="sm"
-      px={4}
-      py={3}
-    >
-      <Flex align="center">
-        <Box fontWeight="bold" fontSize="lg">
+    <header className="sticky top-0 z-50 bg-white border-b border-slate-200 shadow-sm">
+      <div className="max-w-7xl mx-auto px-6 py-3 flex items-center justify-between">
+        <span className="font-bold text-lg text-hn-orange tracking-tight">
           Hacker News
-        </Box>
-        <Spacer />
-        <HStack gap={6}>
-          <Link href="/top-stories" fontWeight="medium">
+        </span>
+        <nav className="flex items-center gap-6">
+          <NavLink
+            to="/top-stories"
+            className={({ isActive }) =>
+              `text-sm font-medium transition-colors ${
+                isActive
+                  ? "text-hn-orange"
+                  : "text-slate-600 hover:text-slate-900"
+              }`
+            }
+          >
             Top Stories
-          </Link>
-          <Link href="/new-stories" fontWeight="medium">
+          </NavLink>
+          <NavLink
+            to="/new-stories"
+            className={({ isActive }) =>
+              `text-sm font-medium transition-colors ${
+                isActive
+                  ? "text-hn-orange"
+                  : "text-slate-600 hover:text-slate-900"
+              }`
+            }
+          >
             New Stories
-          </Link>
-        </HStack>
-      </Flex>
-    </Box>
+          </NavLink>
+        </nav>
+      </div>
+    </header>
   );
 };
 
-export default StickyHeader;
+export default HeaderNavigation;

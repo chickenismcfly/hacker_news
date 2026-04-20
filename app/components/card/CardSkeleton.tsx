@@ -1,36 +1,20 @@
-import {
-  Card as ChakraCard,
-  CardBody,
-  CardFooter,
-  CardHeader,
-  Flex,
-  Heading,
-  Skeleton,
-  Stack,
-} from "@chakra-ui/react";
-
 export const CardSkeleton = () => {
   return (
-    <ChakraCard.Root variant="outline" borderRadius="md">
-      <CardHeader minHeight={10} flex={3}>
-        <Heading size="md">
-          <Skeleton height="24px" width="80%" />
-        </Heading>
-      </CardHeader>
-
-      <CardBody flex={2}>
-        <Stack gap={2}>
-          <Skeleton height="16px" width="60%" />
-          <Flex justifyContent="space-between">
-            <Skeleton height="16px" width="40%" />
-            <Skeleton height="16px" width="40%" />
-          </Flex>
-        </Stack>
-      </CardBody>
-
-      <CardFooter flex={1}>
-        <Skeleton height="24px" width="60px" borderRadius="full" />
-      </CardFooter>
-    </ChakraCard.Root>
+    <div className="bg-white rounded-xl border border-slate-200 shadow-sm flex flex-col animate-pulse">
+      <div className="flex-[3] p-5">
+        <div className="h-5 bg-slate-200 rounded w-4/5 mb-2" />
+        <div className="h-5 bg-slate-200 rounded w-3/5" />
+      </div>
+      <div className="flex-[2] px-5 pb-4">
+        <div className="h-4 bg-slate-200 rounded w-2/5 mb-3" />
+        <div className="flex justify-between gap-4">
+          <div className="h-4 bg-slate-200 rounded w-1/3" />
+          <div className="h-4 bg-slate-200 rounded w-1/3" />
+        </div>
+      </div>
+      <div className="flex-1 px-5 pb-5">
+        <div className="h-6 bg-slate-200 rounded-full w-14" />
+      </div>
+    </div>
   );
 };
