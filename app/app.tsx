@@ -7,7 +7,7 @@ import NewStoriesPage from "./new-stories/page";
 export function App() {
   return (
     <Providers>
-      <BrowserRouter>
+      <BrowserRouter basename="/hacker_news">
         <HeaderNavigation />
         <main className="bg-lilac-50 min-h-screen">
           <div className="max-w-7xl mx-auto px-6 py-8">
