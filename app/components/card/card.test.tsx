@@ -1,4 +1,4 @@
-import { renderWithChakra, screen } from "@/utils/test";
+import { render, screen } from "@/utils/test";
 import { Card } from "./card";
 
 jest.mock("./card-skeleton", () => ({
@@ -16,16 +16,16 @@ const mockItem = {
 
 describe("Card", () => {
   it("renders CardSkeleton when loading is true", () => {
-    renderWithChakra(<Card loading />);
+    render(<Card loading />);
     expect(screen.getByTestId("card-skeleton")).toBeInTheDocument();
   });
 
   it("renders card with item data when loading is false", () => {
-    renderWithChakra(<Card loading={false} item={mockItem} />);
+    render(<Card loading={false} item={mockItem} />);
 
     expect(screen.getByText("Example Story")).toBeInTheDocument();
     expect(screen.getByText("by Example Author")).toBeInTheDocument();
-    expect(screen.getByText("42 points")).toBeInTheDocument();
+    expect(screen.getByText(/42 points/)).toBeInTheDocument();
     expect(screen.getAllByText("17 comments")).toHaveLength(1);
     expect(screen.getByText("#123")).toBeInTheDocument();
     expect(screen.getByRole("link")).toHaveAttribute("href", mockItem.url);

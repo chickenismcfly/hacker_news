@@ -1,5 +1,5 @@
 import { Pagination } from "./pagination";
-import { renderWithChakra, screen } from "@/utils/test";
+import { render, screen } from "@/utils/test";
 
 jest.mock("./pagination-skeleton", () => ({
   PaginationSkeleton: () => <div data-testid="pagination-skeleton" />,
@@ -7,13 +7,13 @@ jest.mock("./pagination-skeleton", () => ({
 
 describe("Pagination", () => {
   it("renders skeleton when loading is true", () => {
-    renderWithChakra(<Pagination loading />);
+    render(<Pagination loading />);
     expect(screen.getByTestId("pagination-skeleton")).toBeInTheDocument();
   });
 
   it("renders pagination controls when loading is false", () => {
-    renderWithChakra(
-      <Pagination loading={false} count={3} page={1} onChange={() => {}} />,
+    render(
+      <Pagination loading={false} count={3} pageSize={1} page={1} onPageChange={() => {}} />,
     );
     expect(
       screen.getByTestId("pagination-previous-button"),
@@ -22,7 +22,7 @@ describe("Pagination", () => {
   });
 
   it("renders page items correctly", () => {
-    renderWithChakra(
+    render(
       <Pagination
         loading={false}
         count={30}
