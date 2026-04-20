@@ -6,20 +6,34 @@ A reference for conventions and patterns followed in this project.
 
 ## Project Structure
 
-Feature-based organization: each feature owns its page, hooks, and related files. Shared UI lives in `/components`, API utilities in `/app/api`.
+Feature-based organization: each feature owns its page and hooks. Shared UI lives in `/components`, generic hooks in `/hooks`, pure utilities in `/utils`, and API utilities in `/api`.
 
 ```
 /app
-  /api                  - Types, constants, data-fetching hooks
-  /components           - Shared UI components (colocated with tests)
-  /top-stories          - Feature page + hooks
-  /new-stories          - Feature page + hooks
-  layout.tsx
-  page.tsx
-  Providers.tsx         - Centralized provider composition
+  /api                    - Types, constants, data-fetching hooks
+  /components             - Shared UI components and their hooks (colocated with tests)
+  /hooks                  - Generic, reusable hooks (useEscapeKey, useScrollLock)
+  /utils                  - Pure utility functions (time formatting, item filtering)
+  /top-stories            - Feature page + data hook
+  /new-stories            - Feature page + data hook
+  app.tsx                 - Router and layout shell
+  providers.tsx           - Centralised provider composition
+  main.tsx                - Entry point
 /utils
-  /test                 - Shared testing utilities
+  /test                   - Shared testing utilities
 ```
+
+---
+
+## Naming Conventions
+
+| Thing             | Convention                         | Example                  |
+|-------------------|------------------------------------|--------------------------|
+| React components  | PascalCase export, kebab-case file | `card-skeleton.tsx`      |
+| Custom hooks      | `use` prefix, kebab-case file      | `use-pagination.ts`      |
+| Utility functions | camelCase export, kebab-case file  | `paginate-data.ts`       |
+| Test files        | Colocated, `.test.ts/tsx` suffix   | `card.test.tsx`          |
+| Folders           | kebab-case                         | `story-feed-page/`       |
 
 ---
 
@@ -33,50 +47,50 @@ Feature-based organization: each feature owns its page, hooks, and related files
     | { loading: false; item: T };
   ```
 - Mark optional fields explicitly with `?` in interfaces.
-- Use `UseQueryResult<T, Error>` as return types for hooks that wrap React Query.
-- Import path alias `@/*` maps to the project root — use it instead of relative paths.
-
----
-
-## Naming Conventions
-
-| Thing             | Convention                       | Example            |
-|-------------------|----------------------------------|--------------------|
-| React components  | PascalCase                       | `CardSkeleton.tsx` |
-| Custom hooks      | camelCase, `use` prefix          | `usePagination.ts` |
-| Utility functions | camelCase                        | `paginateData.ts`  |
-| Test files        | Colocated, `.test.ts/tsx` suffix | `Card.test.tsx`    |
+- Use `UseQueryResult<T, Error>` as the return type for hooks that wrap React Query.
+- Import path alias `@/*` maps to the project root — use it instead of deep relative paths.
 
 ---
 
 ## React Patterns
 
-### Client Components
-Mark every interactive component with `"use client"` at the top to establish the server/client boundary in the Next.js App Router.
+### Separation of Concerns
+
+Keep components purely presentational by extracting logic into dedicated hooks:
+
+- **Data fetching and state** → custom hook alongside the component (e.g. `use-story-feed.ts`, `use-comments-drawer.ts`)
+- **Generic side effects** → shared hook in `/hooks` (e.g. `use-escape-key.ts`, `use-scroll-lock.ts`)
+- **Pure transformations** → utility function in `/utils`
+
+A component should not contain `useEffect`, `useQuery`, or complex `useMemo` — those belong in a hook.
 
 ### Custom Hooks
-Extract data-fetching and stateful logic into dedicated hook files. A hook should do one thing and return typed values.
+
+Each hook should have a single responsibility and return typed values. When a hook needs multiple side effects, compose smaller focused hooks rather than handling everything inline.
 
 ### Data Flow Pattern
+
 Pages orchestrate; components present. The standard pattern for a feed page:
 
 1. Fetch IDs → `useTopStories` / `useNewStories`
-2. Fetch item details in batch → `useItemsBatch`
-3. Manage pagination state → `usePagination`
-4. Derive paginated slice → `paginateData` (memoized)
-5. Map to component props → pass to render
+2. Delegate pagination, fetching, and prop mapping → `useStoryFeed`
+   - Manage pagination state → `usePagination`
+   - Derive paginated slice → `paginateData` (memoised)
+   - Fetch item details in batch → `useItemsBatch`
+3. Render → `StoryFeedPage` (receives only what it needs to display)
 
 ### Provider Composition
-All global providers live in `Providers.tsx` and are applied once in the root layout. Don't spread providers across unrelated files.
+
+All global providers live in `providers.tsx` and are applied once in `app.tsx`. Don't spread providers across unrelated files.
 
 ---
 
 ## State Management (React Query)
 
 - Use `useQuery` with **typed results**: `UseQueryResult<T, Error>`.
-- Query key structure: `[feature, ...params]` — e.g., `["topStories", limit]`.
-- Set `staleTime` explicitly (currently 5-minute intervals) to control refetch behavior.
-- Use the `enabled` flag for conditional/dependent queries.
+- Query key structure: `[feature, ...params]` — e.g., `["topStories"]`, `["itemsBatch", ids]`.
+- Set `staleTime` explicitly (currently 5-minute intervals) to control refetch behaviour.
+- Use the `enabled` flag for conditional/dependent queries (e.g. skip when ID list is empty).
 - Let React Query own loading and error states — don't duplicate them with local `useState`.
 
 ---
@@ -95,12 +109,13 @@ Errors surface through React Query's `isError` / `error` fields — handle them 
 
 ## Loading States
 
-- Use skeleton components (`CardSkeleton`, `PaginationSkeleton`) for all loading states.
-- Compose loading flags at the page level before passing them down:
+- Use skeleton components (`CardSkeleton`, `PaginationSkeleton`, `CommentSkeleton`) for all loading states.
+- Combine loading flags at the hook level before surfacing them:
   ```typescript
   const loading = loadingIds || loadingStories;
   ```
 - Never render partial data — gate on the combined loading flag.
+- Skeleton components accept a `compact` prop where a shorter placeholder is appropriate (e.g. nested replies).
 
 ---
 
@@ -108,38 +123,49 @@ Errors surface through React Query's `isError` / `error` fields — handle them 
 
 ### Coverage targets
 - **Pure functions:** test boundary conditions, empty inputs, and type preservation.
-- **Hooks:** use `renderHook` + `act` to test initialization, custom params, and state transitions.
+- **Hooks:** use `renderHook` + `act` to test initialisation, custom params, and state transitions.
 - **Components:** test both loading and loaded states; use semantic queries (`getByRole`, `getByTestId`, `getByText`).
 
 ### Shared test utilities (`/utils/test`)
 Use the helpers exported from this module — don't inline provider setup in individual test files:
-- `renderWithChakra` — wraps in Chakra UI
-- `renderWithQueryClient` — wraps in React Query
-- `QueryClientWrapper` — reusable wrapper component
+- `render` — re-exported from `@testing-library/react`
+- `renderWithQueryClient` — wraps in a `QueryClientProvider`
+- `QueryClientWrapper` — reusable wrapper component for `renderHook`
+
+### Text matching
+When asserting on text that is split across JSX expressions, use a regex to avoid exact-match failures:
+```typescript
+// ✗ Fails when rendered as "▲ " + "42" + " points"
+expect(screen.getByText("42 points")).toBeInTheDocument();
+
+// ✓
+expect(screen.getByText(/42 points/)).toBeInTheDocument();
+```
 
 ### Mocking
-Mock child components (e.g., `CardSkeleton`) when testing a parent to keep tests focused on the unit under test.
+Mock child components (e.g. `CardSkeleton`, `PaginationSkeleton`) when testing a parent to keep tests focused on the unit under test.
 
 ---
 
-## UI (Chakra UI + Framer Motion)
+## UI (Tailwind CSS + Framer Motion)
 
-- Use `MotionBox` (the custom Chakra + Framer Motion bridge component) for animated layouts.
-- Wrap animated lists in `AnimatePresence` to handle exit animations correctly.
-- Use `AnimatedGrid` for list rendering — it handles key-based animation triggers.
-- Follow Chakra's compound component pattern: `Card.Root`, `CardHeader`, `CardBody`, etc.
+- Use `MotionBox` (`motion.div`) for any element that needs Framer Motion animation props.
+- Wrap animated lists or page transitions in `AnimatePresence` to handle exit animations correctly.
+- Use `AnimatedGrid` for paginated list rendering — it handles key-based slide transitions automatically.
+- Tailwind classes follow a mobile-first responsive order: base → `sm:` → `md:`.
 
 ---
 
 ## Configuration
 
-| File | Purpose |
-|---|---|
-| `tsconfig.json` | Strict mode, ESNext target, `@/*` path alias, incremental builds |
-| `next.config.ts` | React Compiler enabled, typed with `NextConfig` |
-| `eslint.config.mjs` | Flat config (ESLint v9+), extends `next/core-web-vitals` + TypeScript |
-| `jest.config.ts` | Next.js Jest wrapper, jsdom environment, v8 coverage |
-| `jest.setup.ts` | Loads `@testing-library/jest-dom` and `structuredClone` polyfill |
+| File              | Purpose                                                              |
+|-------------------|----------------------------------------------------------------------|
+| `tsconfig.json`   | Strict mode, ESNext target, `@/*` path alias                        |
+| `vite.config.ts`  | Vite bundler, React plugin, Tailwind CSS plugin                     |
+| `eslint.config.mjs` | Flat config (ESLint v9+)                                          |
+| `jest.config.ts`  | Babel transformer, jsdom environment, module alias mapping          |
+| `jest.setup.ts`   | Loads `@testing-library/jest-dom` and `structuredClone` polyfill    |
+| `babel.config.js` | Babel presets for Jest (env, React, TypeScript)                     |
 
 Prefer framework defaults over custom configuration. Only add config when there is a specific need.
 
@@ -149,11 +175,10 @@ Prefer framework defaults over custom configuration. Only add config when there 
 
 - Pin **major versions**, use `^` for minor/patch flexibility.
 - Keep `@types/*` packages aligned with their corresponding runtime packages.
-- Every new runtime dependency should have a corresponding type definition.
 
 Key dependency versions:
-- React 18, Next.js 16
-- Chakra UI v3, Framer Motion v12
+- React 18, Vite 6
+- Tailwind CSS v4, Framer Motion v12
 - TanStack Query v5
 - TypeScript 5, Jest 30, Testing Library 16
 
@@ -161,8 +186,10 @@ Key dependency versions:
 
 ## What to Avoid
 
+- Don't put data fetching, `useEffect`, or complex memoisation directly in components — extract to a hook.
+- Don't duplicate the same filter predicate (e.g. `isVisibleComment`) inline — share it from `/utils`.
 - Don't add error handling for scenarios that can't happen — trust TypeScript and framework guarantees.
 - Don't create one-off helpers or abstractions for single-use logic.
 - Don't duplicate server state in `useState` — React Query owns it.
-- Don't spread providers; compose them once in `Providers.tsx`.
+- Don't spread providers; compose them once in `providers.tsx`.
 - Don't leave loading states unhandled — always render a skeleton or error UI.
