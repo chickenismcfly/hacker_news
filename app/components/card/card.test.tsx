@@ -1,4 +1,4 @@
-import { render, screen } from "@/utils/test";
+import { render, screen, fireEvent } from "@/utils/test";
 import { Card } from "./card";
 
 vi.mock("./card-skeleton", () => ({
@@ -26,8 +26,15 @@ describe("Card", () => {
     expect(screen.getByText("Example Story")).toBeInTheDocument();
     expect(screen.getByText("by Example Author")).toBeInTheDocument();
     expect(screen.getByText(/42 points/)).toBeInTheDocument();
-    expect(screen.getAllByText("17 comments")).toHaveLength(1);
+    expect(screen.getByText("17 comments")).toBeInTheDocument();
     expect(screen.getByText("#123")).toBeInTheDocument();
     expect(screen.getByRole("link")).toHaveAttribute("href", mockItem.url);
+  });
+
+  it("calls onCommentsClick when comments button is clicked", () => {
+    const onCommentsClick = vi.fn();
+    render(<Card loading={false} item={mockItem} onCommentsClick={onCommentsClick} />);
+    fireEvent.click(screen.getByText("17 comments"));
+    expect(onCommentsClick).toHaveBeenCalledOnce();
   });
 });
