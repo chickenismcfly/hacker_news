@@ -10,7 +10,7 @@ A React app for browsing Hacker News top and new stories, built with Vite and Ta
 - **TanStack Query** — data fetching and caching
 - **React Router v6** — client-side routing
 - **Framer Motion** — animations
-- **Jest + Testing Library** — unit and component tests
+- **Vitest + Testing Library** — unit and component tests
 
 ## Getting Started
 
