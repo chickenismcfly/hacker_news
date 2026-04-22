@@ -1,7 +1,7 @@
 import { render, screen } from "@/utils/test";
 import { Card } from "./card";
 
-jest.mock("./card-skeleton", () => ({
+vi.mock("./card-skeleton", () => ({
   CardSkeleton: () => <div data-testid="card-skeleton" />,
 }));
 

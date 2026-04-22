@@ -1,7 +1,7 @@
 import { Pagination } from "./pagination";
 import { render, screen } from "@/utils/test";
 
-jest.mock("./pagination-skeleton", () => ({
+vi.mock("./pagination-skeleton", () => ({
   PaginationSkeleton: () => <div data-testid="pagination-skeleton" />,
 }));
 
