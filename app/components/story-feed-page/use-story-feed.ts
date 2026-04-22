@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
 import { HNItem } from "@/app/api/types";
-import { useItemsBatch } from "@/app/api/use-items-batch";
+import { useItems } from "@/app/api/use-items-batch";
 import { usePagination } from "@/app/components/pagination/use-pagination";
 import { paginateData } from "@/app/components/pagination/paginate-data";
 import { CardBaseProps, CardProps } from "@/app/components/card/card";
@@ -14,7 +14,7 @@ export function useStoryFeed(ids: number[] | undefined, loadingIds: boolean) {
     [ids, currentPage, pageSize],
   );
 
-  const { data: stories = [], isLoading: loadingStories } = useItemsBatch(pageIds);
+  const { data: stories, isLoading: loadingStories } = useItems(pageIds);
 
   const loading = loadingIds || loadingStories;
 

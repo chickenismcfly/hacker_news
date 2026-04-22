@@ -1,22 +1,34 @@
-import { useQuery, UseQueryResult } from "@tanstack/react-query";
-
-import { HACKER_NEWS_API } from "@/app/api/api";
+import { useMemo } from "react";
+import { useQueries } from "@tanstack/react-query";
 import { HNItem } from "@/app/api/types";
+import { fetchItem, itemQueryKey } from "@/app/api/api";
 
-export function useItemsBatch(ids: number[] = []): UseQueryResult<HNItem[], Error> {
-  return useQuery<HNItem[], Error>({
-    queryKey: ["itemsBatch", ids],
-    queryFn: async () => {
-      const items = await Promise.all(
-        ids.map((id) =>
-          fetch(`${HACKER_NEWS_API}/item/${id}.json`).then((res) => {
-            if (!res.ok) throw new Error(`Failed to fetch item ${id}`);
-            return res.json() as Promise<HNItem>;
-          }),
-        ),
-      );
-      return items;
-    },
-    enabled: ids.length > 0,
+type UseItemsResult = {
+  data: HNItem[];
+  isLoading: boolean;
+  error: Error | null;
+};
+
+export function useItems(ids: number[] = []): UseItemsResult {
+  const queries = useQueries({
+    queries: ids.map((id) => ({
+      queryKey: itemQueryKey(id),
+      queryFn: () => fetchItem(id),
+      staleTime: 1000 * 60 * 5,
+    })),
   });
+
+  return useMemo(() => {
+    const isLoading = queries.some((query) => query.isPending);
+    const error = queries.find((query) => query.error)?.error ?? null;
+    const data = queries
+      .map((query) => query.data)
+      .filter((item): item is HNItem => item !== undefined);
+
+    return {
+      data,
+      isLoading,
+      error,
+    };
+  }, [queries]);
 }

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { LuChevronDown, LuChevronUp } from "react-icons/lu";
 import { HNItem } from "@/app/api/types";
-import { useItemsBatch } from "@/app/api/use-items-batch";
+import { useItems } from "@/app/api/use-items-batch";
 import { CommentSkeleton } from "./comment-skeleton";
 import { formatTimeAgo } from "@/app/utils/time";
 import { isVisibleComment } from "@/app/utils/hn-item";
@@ -21,7 +21,7 @@ type CommentRepliesProps = {
 };
 
 const CommentReplies = ({ kidIds, depth }: CommentRepliesProps) => {
-  const { data: replies = [], isLoading } = useItemsBatch(kidIds);
+  const { data: replies, isLoading } = useItems(kidIds);
 
   if (isLoading) {
     return (
