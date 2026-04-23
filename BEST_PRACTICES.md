@@ -32,7 +32,8 @@ Feature-based organization: each feature owns its page and hooks. Shared UI live
 | React components  | PascalCase export, kebab-case file | `card-skeleton.tsx`      |
 | Custom hooks      | `use` prefix, kebab-case file      | `use-pagination.ts`      |
 | Utility functions | camelCase export, kebab-case file  | `paginate-data.ts`       |
-| Test files        | Colocated, `.test.ts/tsx` suffix   | `card.test.tsx`          |
+| Unit test files   | Colocated, `.test.ts/tsx` suffix   | `card.test.tsx`          |
+| A11y test files   | Colocated, `.a11y.test.ts/tsx` suffix | `card.a11y.test.tsx`  |
 | Folders           | kebab-case                         | `story-feed-page/`       |
 
 ---
@@ -145,6 +146,30 @@ expect(screen.getByText(/42 points/)).toBeInTheDocument();
 ### Mocking
 Mock child components (e.g. `CardSkeleton`, `PaginationSkeleton`) when testing a parent to keep tests focused on the unit under test.
 
+### Accessibility Testing (axe)
+- Accessibility tests live in separate `*.a11y.test.ts/tsx` files
+- Import `axe` from `utils/test/a11y`
+- Run with `npm run test:a11y` (separate from unit tests)
+- Test both loading and loaded states for components with loading skeletons
+- The axe instance has the `region` rule disabled (not meaningful at component level)
+
+---
+
+## Theming & Design Tokens
+
+The app supports multiple themes via CSS custom properties:
+
+**File structure:**
+- `app/globals.css` — Default theme (`@theme` block) and theme overrides (`[data-theme="ocean"]`, `[data-theme="rose"]`)
+- `app/themes.ts` — Theme registry with `ThemeId` union type
+- `app/hooks/use-theme.tsx` — `ThemeProvider` context; manages localStorage persistence and DOM attribute
+- `app/components/theme-selector/` — Theme swatch picker UI
+
+**Color tokens:**
+- Use semantic token names (`primary-50`, `primary-100`, etc.) — never hardcode brand names
+- Tailwind's default `slate-*` colors remain for secondary text, disabled states, etc.
+- To add a new theme: add entry to `themes` array in `app/themes.ts`, then add `[data-theme="id"]` CSS block in `globals.css`
+
 ---
 
 ## UI (Tailwind CSS + Framer Motion)
@@ -179,7 +204,7 @@ Key dependency versions:
 - React 18, Vite 6
 - Tailwind CSS v4, Framer Motion v12
 - TanStack Query v5
-- TypeScript 5, Vitest 3, Testing Library 16
+- TypeScript 5, Vitest 3, Testing Library 16, jest-axe 10
 
 ---
 

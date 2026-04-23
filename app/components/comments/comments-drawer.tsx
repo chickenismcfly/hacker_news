@@ -12,7 +12,7 @@ type CommentsDrawerProps = {
 };
 
 export const CommentsDrawer = ({ story, onClose }: CommentsDrawerProps) => {
-  const { visibleComments, isLoading } = useCommentsDrawer(story, onClose);
+  const { visibleComments, isLoading, closeButtonRef } = useCommentsDrawer(story, onClose);
 
   return (
     <AnimatePresence>
@@ -53,6 +53,7 @@ export const CommentsDrawer = ({ story, onClose }: CommentsDrawerProps) => {
                 </h2>
               </div>
               <button
+                ref={closeButtonRef}
                 onClick={onClose}
                 aria-label="Close comments"
                 className="flex-shrink-0 w-8 h-8 flex items-center justify-center rounded-lg text-slate-500 hover:bg-primary-100 hover:text-primary-700 transition-colors mt-0.5"

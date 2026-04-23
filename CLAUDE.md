@@ -8,7 +8,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 npm run dev                                        # Start dev server at http://localhost:5173
 npm run build                                      # Production build
 npm run test                                       # Run all tests (watch mode)
-npm run test -- --run                              # Run all tests once (CI mode)
+npm run test:unit -- --run                         # Run unit tests only (CI mode)
+npm run test:a11y                                  # Run accessibility tests (axe)
 npm run test -- --run path/to/file.test.ts         # Run a single test file
 npm run lint                                       # Lint source files
 ```
@@ -32,6 +33,17 @@ The `CommentsDrawer` is controlled via a `selectedStory: HNItem | null` state ow
 - `utils/test/` — shared test helpers; always import `render` from `@/utils/test`, not inline
 
 **Barrel imports:** pagination exports are consolidated — import from `@/app/components/pagination`, not individual files within it.
+
+**Theming:** The app supports multiple themes (Lilac, Ocean, Rose). Theme switching is powered by:
+- `app/themes.ts` — theme registry and type-safe `ThemeId`
+- `app/hooks/use-theme.tsx` — `ThemeProvider` (reads localStorage, applies `data-theme` attribute)
+- `app/components/theme-selector/` — swatch picker UI in the header
+- `app/globals.css` — `@theme` block (default palette) + `[data-theme]` CSS overrides per theme
+- Color tokens use semantic name `primary-*` (not brand-specific) to swap palettes
+
+**Accessibility:** CommentsDrawer manages focus:
+- On open: saves previously focused element, focuses the close button
+- On close: restores focus to the element that opened the drawer
 
 ## Best Practices
 

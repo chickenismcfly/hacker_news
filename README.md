@@ -1,6 +1,6 @@
 # Hacker News Client
 
-A React app for browsing Hacker News top and new stories, built with Vite and Tailwind CSS.
+A React app for browsing Hacker News top and new stories, built with Vite and Tailwind CSS. Features theme selection (Lilac, Ocean, Rose), paginated feeds, and nested comments.
 
 ## Stack
 
@@ -35,7 +35,9 @@ Open [http://localhost:5173](http://localhost:5173) in your browser.
 | `npm run dev` | Start development server |
 | `npm run build` | Build for production |
 | `npm run preview` | Preview production build locally |
-| `npm run test` | Run tests |
+| `npm run test` | Run all tests (watch mode) |
+| `npm run test:unit -- --run` | Run unit tests only |
+| `npm run test:a11y` | Run accessibility tests |
 | `npm run lint` | Lint source files |
 
 ## Project Structure
