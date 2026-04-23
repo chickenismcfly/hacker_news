@@ -33,7 +33,7 @@ export const StoryFeedPage = ({
       />
       <div className="py-9 min-h-screen overflow-hidden">
         <div className="flex justify-between items-start mb-8 gap-4">
-          <h1 className="text-4xl font-bold text-lilac-950 tracking-tight">
+          <h1 className="text-4xl font-bold text-primary-950 tracking-tight">
             {title}
           </h1>
           <Pagination

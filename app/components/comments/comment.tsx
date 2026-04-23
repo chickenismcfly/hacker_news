@@ -9,10 +9,10 @@ import { isVisibleComment } from "@/app/utils/hn-item";
 const MAX_DEPTH = 3;
 
 const borderColors = [
-  "border-lilac-400",
-  "border-lilac-300",
-  "border-lilac-200",
-  "border-lilac-100",
+  "border-primary-400",
+  "border-primary-300",
+  "border-primary-200",
+  "border-primary-100",
 ];
 
 type CommentRepliesProps = {
@@ -58,14 +58,14 @@ export const Comment = ({ item, depth = 0 }: CommentProps) => {
   return (
     <div className={`border-l-2 ${borderColor} pl-3`}>
       <div className="flex items-center gap-1.5 mb-1.5">
-        <span className="text-xs font-semibold text-lilac-700">{item.by}</span>
+        <span className="text-xs font-semibold text-primary-700">{item.by}</span>
         <span className="text-xs text-slate-300">·</span>
         <span className="text-xs text-slate-500">{formatTimeAgo(item.time)}</span>
       </div>
 
       {item.text ? (
         <div
-          className="text-sm text-slate-700 leading-relaxed [&_p]:mb-2 [&_p:last-child]:mb-0 [&_a]:text-lilac-600 [&_a]:underline [&_a:hover]:text-lilac-800 [&_pre]:mt-2 [&_pre]:bg-lilac-50 [&_pre]:rounded-lg [&_pre]:p-3 [&_pre]:text-xs [&_pre]:overflow-x-auto [&_code]:font-mono [&_code]:text-xs"
+          className="text-sm text-slate-700 leading-relaxed [&_p]:mb-2 [&_p:last-child]:mb-0 [&_a]:text-primary-600 [&_a]:underline [&_a:hover]:text-primary-800 [&_pre]:mt-2 [&_pre]:bg-primary-50 [&_pre]:rounded-lg [&_pre]:p-3 [&_pre]:text-xs [&_pre]:overflow-x-auto [&_code]:font-mono [&_code]:text-xs"
           dangerouslySetInnerHTML={{ __html: item.text }}
         />
       ) : (
@@ -75,7 +75,7 @@ export const Comment = ({ item, depth = 0 }: CommentProps) => {
       {hasReplies && (
         <button
           onClick={() => setExpanded((v) => !v)}
-          className="mt-2 flex items-center gap-1 text-xs font-medium text-lilac-600 hover:text-lilac-800 transition-colors"
+          className="mt-2 flex items-center gap-1 text-xs font-medium text-primary-600 hover:text-primary-800 transition-colors"
         >
           {expanded ? <LuChevronUp size={12} /> : <LuChevronDown size={12} />}
           {expanded

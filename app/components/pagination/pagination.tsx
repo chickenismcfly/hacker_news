@@ -37,8 +37,8 @@ export const Pagination: FunctionComponent<PaginationProps> = ({
 
   const btnBase =
     "w-8 h-8 flex items-center justify-center rounded-lg text-sm font-medium transition-colors duration-150";
-  const btnActive = "bg-lilac-600 text-white";
-  const btnInactive = "text-slate-600 hover:bg-lilac-100 hover:text-lilac-700";
+  const btnActive = "bg-primary-600 text-white";
+  const btnInactive = "text-slate-600 hover:bg-primary-100 hover:text-primary-700";
   const btnDisabled = "text-slate-300 cursor-not-allowed";
 
   return (

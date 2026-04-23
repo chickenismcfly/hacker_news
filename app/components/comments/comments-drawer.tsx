@@ -24,7 +24,7 @@ export const CommentsDrawer = ({ story, onClose }: CommentsDrawerProps) => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="fixed inset-0 z-40 bg-lilac-950/40 backdrop-blur-sm"
+            className="fixed inset-0 z-40 bg-primary-950/40 backdrop-blur-sm"
             onClick={onClose}
           />
 
@@ -40,14 +40,14 @@ export const CommentsDrawer = ({ story, onClose }: CommentsDrawerProps) => {
             aria-labelledby="comments-drawer-title"
           >
             {/* Header */}
-            <div className="flex items-start justify-between gap-4 px-6 py-5 border-b border-lilac-100 flex-shrink-0">
+            <div className="flex items-start justify-between gap-4 px-6 py-5 border-b border-primary-100 flex-shrink-0">
               <div className="min-w-0">
-                <p className="text-xs font-semibold text-lilac-500 uppercase tracking-wider mb-1.5">
+                <p className="text-xs font-semibold text-primary-500 uppercase tracking-wider mb-1.5">
                   Comments
                 </p>
                 <h2
                   id="comments-drawer-title"
-                  className="text-base font-semibold text-lilac-950 leading-snug line-clamp-2"
+                  className="text-base font-semibold text-primary-950 leading-snug line-clamp-2"
                 >
                   {story.title}
                 </h2>
@@ -55,14 +55,14 @@ export const CommentsDrawer = ({ story, onClose }: CommentsDrawerProps) => {
               <button
                 onClick={onClose}
                 aria-label="Close comments"
-                className="flex-shrink-0 w-8 h-8 flex items-center justify-center rounded-lg text-slate-500 hover:bg-lilac-100 hover:text-lilac-700 transition-colors mt-0.5"
+                className="flex-shrink-0 w-8 h-8 flex items-center justify-center rounded-lg text-slate-500 hover:bg-primary-100 hover:text-primary-700 transition-colors mt-0.5"
               >
                 <LuX size={16} />
               </button>
             </div>
 
             {/* Comment count bar */}
-            <div className="px-6 py-2.5 border-b border-lilac-50 flex-shrink-0">
+            <div className="px-6 py-2.5 border-b border-primary-50 flex-shrink-0">
               <span className="text-xs text-slate-500">
                 {story.descendants ?? 0} total comments
               </span>

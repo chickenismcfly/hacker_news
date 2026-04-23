@@ -9,7 +9,7 @@ export function App() {
     <Providers>
       <BrowserRouter basename="/hacker_news">
         <HeaderNavigation />
-        <main className="bg-lilac-50 min-h-screen">
+        <main className="bg-primary-50 min-h-screen">
           <div className="max-w-7xl mx-auto px-6 py-8">
             <Routes>
               <Route path="/" element={<Navigate to="/top-stories" replace />} />
