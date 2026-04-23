@@ -1,4 +1,4 @@
-import { Pagination } from "@/app/components/pagination/pagination";
+import { Pagination } from "@/app/components/pagination";
 import { AnimatedGrid } from "@/app/components/animated-grid";
 import { Card } from "@/app/components/card/card";
 import { CommentsDrawer } from "@/app/components/comments/comments-drawer";

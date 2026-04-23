@@ -163,9 +163,8 @@ Mock child components (e.g. `CardSkeleton`, `PaginationSkeleton`) when testing a
 | `tsconfig.json`   | Strict mode, ESNext target, `@/*` path alias                        |
 | `vite.config.ts`  | Vite bundler, React plugin, Tailwind CSS plugin                     |
 | `eslint.config.mjs` | Flat config (ESLint v9+)                                          |
-| `jest.config.ts`  | Babel transformer, jsdom environment, module alias mapping          |
-| `jest.setup.ts`   | Loads `@testing-library/jest-dom` and `structuredClone` polyfill    |
-| `babel.config.js` | Babel presets for Jest (env, React, TypeScript)                     |
+| `vitest.config.ts` (via `vite.config.ts`) | jsdom environment, globals, setup file  |
+| `vitest.setup.ts` | Loads `@testing-library/jest-dom` and `structuredClone` polyfill    |
 
 Prefer framework defaults over custom configuration. Only add config when there is a specific need.
 
@@ -180,7 +179,7 @@ Key dependency versions:
 - React 18, Vite 6
 - Tailwind CSS v4, Framer Motion v12
 - TanStack Query v5
-- TypeScript 5, Jest 30, Testing Library 16
+- TypeScript 5, Vitest 3, Testing Library 16
 
 ---
 

@@ -1,8 +1,7 @@
 import { useMemo, useState } from "react";
 import { HNItem } from "@/app/api/types";
 import { useItems } from "@/app/api/use-items-batch";
-import { usePagination } from "@/app/components/pagination/use-pagination";
-import { paginateData } from "@/app/components/pagination/paginate-data";
+import { usePagination, paginateData } from "@/app/components/pagination";
 import { CardBaseProps, CardProps } from "@/app/components/card/card";
 
 export function useStoryFeed(ids: number[] | undefined, loadingIds: boolean) {
