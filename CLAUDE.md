@@ -45,6 +45,13 @@ The `CommentsDrawer` is controlled via a `selectedStory: HNItem | null` state ow
 - On open: saves previously focused element, focuses the close button
 - On close: restores focus to the element that opened the drawer
 
+## Working Principles
+
+Before writing code:
+1. **Always crawl the repo first** — search for existing implementations, utilities, and patterns before building. Reuse existing functions rather than reinventing.
+2. **Keep DRY** — if the same logic appears twice, extract it. If a utility exists, use it.
+3. **Always clean up dead code** — remove unused functions, exports, and files. Don't leave commented code or stub implementations behind.
+
 ## Best Practices
 
 Follow the conventions in `BEST_PRACTICES.md`. Key areas to keep in mind:

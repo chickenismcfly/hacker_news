@@ -178,6 +178,7 @@ The app supports multiple themes via CSS custom properties:
 - Wrap animated lists or page transitions in `AnimatePresence` to handle exit animations correctly.
 - Use `AnimatedGrid` for paginated list rendering — it handles key-based slide transitions automatically.
 - Tailwind classes follow a mobile-first responsive order: base → `sm:` → `md:`.
+- **Fonts:** Use only system fonts (`system-ui`, `-apple-system`, `sans-serif`). No external font downloads — this keeps the app fast and simple.
 
 ---
 
@@ -207,6 +208,12 @@ Key dependency versions:
 - TypeScript 5, Vitest 3, Testing Library 16, jest-axe 10
 
 ---
+
+## Simplicity First
+
+- **Don't add external dependencies unless required.** System fonts are good enough; external APIs and libraries add complexity and load time. Only pull in a library if the app genuinely needs it.
+- **Don't over-engineer.** Build what's needed today, not what *might* be needed tomorrow. One-off solutions are fine; abstractions are for when the pattern repeats.
+- **Don't download unnecessary assets.** Every image, font, or script adds to the bundle and network overhead. Question whether it's worth the cost.
 
 ## What to Avoid
 

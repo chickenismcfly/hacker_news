@@ -12,7 +12,7 @@
   --color-primary-800: #5b21b6;
   --color-primary-900: #4c1d95;
   --color-primary-950: #2e1065;
-  --font-sans: "Inter", system-ui, -apple-system, sans-serif;
+  --font-sans: system-ui, -apple-system, sans-serif;
 }
 
 [data-theme="ocean"] {
