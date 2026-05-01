@@ -8,7 +8,7 @@
     "preview": "vite preview",
     "lint": "eslint",
     "test": "vitest",
-    "test:unit": "vitest --run --exclude '**/*.a11y.test.*'",
+    "test:unit": "vitest --exclude '**/*.a11y.test.*'",
     "test:a11y": "vitest --run a11y",
     "deploy": "gh-pages -d dist"
   },
