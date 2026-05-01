@@ -9,7 +9,7 @@ const HeaderNavigation = () => {
           Hacker News
         </span>
         <div className="flex items-center gap-6">
-          <nav className="flex items-center gap-6">
+          <nav className="flex items-center gap-6" aria-label="Primary">
             <NavLink
               to="/top-stories"
               className={({ isActive }) =>
