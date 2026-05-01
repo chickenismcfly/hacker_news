@@ -1,4 +1,4 @@
-import { useCallback, useRef } from "react";
+import { KeyboardEvent, useCallback, useRef } from "react";
 import { HNItem } from "@/app/api/types";
 import { useItems } from "@/app/api/use-items-batch";
 import { isVisibleComment } from "@/app/utils/hn-item";
@@ -28,7 +28,7 @@ export function useCommentsDrawer(story: HNItem | null, onClose: () => void) {
   useEscapeKey(onClose, isOpen);
   useScrollLock(isOpen);
 
-  const onKeyDown = useCallback((event: React.KeyboardEvent<HTMLDivElement>) => {
+  const onKeyDown = useCallback((event: KeyboardEvent<HTMLDivElement>) => {
     if (event.key !== "Tab") return;
 
     const focusableElements = drawerRef.current?.querySelectorAll<HTMLElement>(
