@@ -42,7 +42,7 @@ export const Pagination: FunctionComponent<PaginationProps> = ({
   const btnDisabled = "text-slate-300 cursor-not-allowed";
 
   return (
-    <div className="flex items-center gap-1">
+    <nav className="flex items-center gap-1" aria-label="Pagination">
       <button
         onClick={() => onPageChange({ page: page - 1 })}
         disabled={page <= 1}
@@ -55,7 +55,11 @@ export const Pagination: FunctionComponent<PaginationProps> = ({
 
       {getPageNumbers().map((p, i) =>
         p === "ellipsis" ? (
-          <span key={`ellipsis-${i}`} className="w-8 h-8 flex items-center justify-center text-slate-600 text-sm">
+          <span
+            key={`ellipsis-${i}`}
+            className="w-8 h-8 flex items-center justify-center text-slate-600 text-sm"
+            aria-hidden="true"
+          >
             …
           </span>
         ) : (
@@ -63,6 +67,8 @@ export const Pagination: FunctionComponent<PaginationProps> = ({
             key={p}
             onClick={() => onPageChange({ page: p })}
             className={`${btnBase} ${p === page ? btnActive : btnInactive}`}
+            aria-label={`Go to page ${p}`}
+            aria-current={p === page ? "page" : undefined}
           >
             {p}
           </button>
@@ -78,6 +84,6 @@ export const Pagination: FunctionComponent<PaginationProps> = ({
       >
         <LuChevronRight size={16} />
       </button>
-    </div>
+    </nav>
   );
 };

@@ -2,6 +2,7 @@ import { useState } from "react";
 import { LuChevronDown, LuChevronUp } from "react-icons/lu";
 import { HNItem } from "@/app/api/types";
 import { useItems } from "@/app/api/use-items-batch";
+import { useDisclosureA11y } from "@/app/hooks/a11y/use-disclosure-a11y";
 import { CommentSkeleton } from "./comment-skeleton";
 import { formatTimeAgo } from "@/app/utils/time";
 import { isVisibleComment } from "@/app/utils/hn-item";
@@ -18,14 +19,15 @@ const borderColors = [
 type CommentRepliesProps = {
   kidIds: number[];
   depth: number;
+  regionId: string;
 };
 
-const CommentReplies = ({ kidIds, depth }: CommentRepliesProps) => {
+const CommentReplies = ({ kidIds, depth, regionId }: CommentRepliesProps) => {
   const { data: replies, isLoading } = useItems(kidIds);
 
   if (isLoading) {
     return (
-      <div className="mt-3 ml-4 space-y-3">
+      <div id={regionId} className="mt-3 ml-4 space-y-3">
         {Array.from({ length: Math.min(kidIds.length, 3) }).map((_, i) => (
           <CommentSkeleton key={i} compact />
         ))}
@@ -34,7 +36,7 @@ const CommentReplies = ({ kidIds, depth }: CommentRepliesProps) => {
   }
 
   return (
-    <div className="mt-3 ml-4 space-y-3">
+    <div id={regionId} className="mt-3 ml-4 space-y-3">
       {replies
         .filter(isVisibleComment)
         .map((reply) => (
@@ -54,6 +56,7 @@ export const Comment = ({ item, depth = 0 }: CommentProps) => {
   const replyCount = item.kids?.length ?? 0;
   const hasReplies = replyCount > 0 && depth < MAX_DEPTH;
   const borderColor = borderColors[Math.min(depth, borderColors.length - 1)];
+  const { triggerProps, regionProps } = useDisclosureA11y(expanded);
 
   return (
     <div className={`border-l-2 ${borderColor} pl-3`}>
@@ -74,8 +77,10 @@ export const Comment = ({ item, depth = 0 }: CommentProps) => {
 
       {hasReplies && (
         <button
+          type="button"
           onClick={() => setExpanded((v) => !v)}
           className="mt-2 flex items-center gap-1 text-xs font-medium text-primary-600 hover:text-primary-800 transition-colors"
+          {...triggerProps}
         >
           {expanded ? <LuChevronUp size={12} /> : <LuChevronDown size={12} />}
           {expanded
@@ -85,7 +90,11 @@ export const Comment = ({ item, depth = 0 }: CommentProps) => {
       )}
 
       {hasReplies && expanded && (
-        <CommentReplies kidIds={item.kids!} depth={depth + 1} />
+        <CommentReplies
+          kidIds={item.kids!}
+          depth={depth + 1}
+          regionId={regionProps.id}
+        />
       )}
     </div>
   );
