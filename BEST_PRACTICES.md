@@ -69,6 +69,8 @@ A component should not contain `useEffect`, `useQuery`, or complex `useMemo` —
 
 Each hook should have a single responsibility and return typed values. When a hook needs multiple side effects, compose smaller focused hooks rather than handling everything inline.
 
+Accessibility behavior should follow the same rule: if a component needs focus management, keyboard interaction wiring, ARIA state wiring, or disclosure/radiogroup semantics, extract that behavior into a dedicated hook under `app/hooks/a11y/` and test the hook directly.
+
 ### Data Flow Pattern
 
 Pages orchestrate; components present. The standard pattern for a feed page:

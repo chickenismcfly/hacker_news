@@ -1,7 +1,8 @@
-import { useId, useState } from "react";
+import { useState } from "react";
 import { LuChevronDown, LuChevronUp } from "react-icons/lu";
 import { HNItem } from "@/app/api/types";
 import { useItems } from "@/app/api/use-items-batch";
+import { useDisclosureA11y } from "@/app/hooks/a11y/use-disclosure-a11y";
 import { CommentSkeleton } from "./comment-skeleton";
 import { formatTimeAgo } from "@/app/utils/time";
 import { isVisibleComment } from "@/app/utils/hn-item";
@@ -52,10 +53,10 @@ type CommentProps = {
 
 export const Comment = ({ item, depth = 0 }: CommentProps) => {
   const [expanded, setExpanded] = useState(false);
-  const repliesRegionId = useId();
   const replyCount = item.kids?.length ?? 0;
   const hasReplies = replyCount > 0 && depth < MAX_DEPTH;
   const borderColor = borderColors[Math.min(depth, borderColors.length - 1)];
+  const { triggerProps, regionProps } = useDisclosureA11y(expanded);
 
   return (
     <div className={`border-l-2 ${borderColor} pl-3`}>
@@ -79,8 +80,7 @@ export const Comment = ({ item, depth = 0 }: CommentProps) => {
           type="button"
           onClick={() => setExpanded((v) => !v)}
           className="mt-2 flex items-center gap-1 text-xs font-medium text-primary-600 hover:text-primary-800 transition-colors"
-          aria-expanded={expanded}
-          aria-controls={repliesRegionId}
+          {...triggerProps}
         >
           {expanded ? <LuChevronUp size={12} /> : <LuChevronDown size={12} />}
           {expanded
@@ -93,7 +93,7 @@ export const Comment = ({ item, depth = 0 }: CommentProps) => {
         <CommentReplies
           kidIds={item.kids!}
           depth={depth + 1}
-          regionId={repliesRegionId}
+          regionId={regionProps.id}
         />
       )}
     </div>
